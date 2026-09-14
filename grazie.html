@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Richiesta inviata – Essenza Medica</title>
+  <meta name="description" content="Grazie per la tua richiesta. Ti ricontatteremo a breve per confermare l'appuntamento.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+
+  <!-- Google Tag Manager -->
+  <script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+  <!-- End Google Tag Manager -->
+</head>
+<body class="thank-you-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <main class="thank-you" id="contenuto">
+    <div class="thank-you-card">
+      <img class="thank-you-logo" src="assets/logo.png" alt="Essenza Medica" width="220" height="110">
+      <p class="thank-you-check" aria-hidden="true">✓</p>
+      <h1>Grazie, richiesta inviata</h1>
+      <p class="thank-you-lead">Abbiamo ricevuto la tua richiesta<span id="specialty-note"></span>. Ti ricontatteremo a breve per confermare data e orario.</p>
+      <div class="thank-you-actions">
+        <a class="btn btn-primary btn-lg" href="tel:+390541670521" data-event="phone_click">Chiama 0541 670521</a>
+        <a class="btn btn-ghost" href="https://www.essenzamedica.it">Torna al sito</a>
+      </div>
+      <p class="thank-you-meta">Essenza Medica · via Ariete 18, 47923 Rimini</p>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var specialita = params.get('specialita');
+    var note = document.getElementById('specialty-note');
+    if (specialita && note) {
+      note.textContent = ' per ' + specialita;
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'thank_you_view',
+      specialita: specialita || ''
+    });
+  })();
+  </script>
+</body>
+</html>
