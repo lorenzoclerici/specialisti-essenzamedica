@@ -2,10 +2,13 @@
 """Genera le 16 landing page Essenza Medica."""
 
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent
 PHONE = "+390541670521"
 PHONE_DISPLAY = "0541 670521"
+THANKS_BASE = "https://specialisti.essenzamedica.it/grazie"
+FORM_EMAIL = "lorenzo.clerici@reddoak.com"
 MAP_EMBED = "https://www.google.com/maps?q=Via+Ariete+18,+47923+Rimini,+Italia&z=16&output=embed"
 MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Via+Ariete+18,+47923+Rimini"
 
@@ -362,6 +365,8 @@ def render(page):
     )
     visual_cls = "hero-visual hero-visual--multi" if multi else "hero-visual"
     specialita_js = page["form_specialty"].replace("'", "\\'")
+    thanks_url = f"{THANKS_BASE}?specialita={quote(page['form_specialty'])}"
+    subject = f"Nuova richiesta da {page['form_specialty']}"
 
     return f"""<!DOCTYPE html>
 <html lang="it">
@@ -574,7 +579,12 @@ def render(page):
           <p>Compila il modulo: ti ricontattiamo per confermare data e orario. Oppure chiamaci al <a href="tel:{PHONE}" data-event="phone_click">{PHONE_DISPLAY}</a>.</p>
         </div>
         <div class="booking-card">
-          <form id="lead-form" novalidate>
+          <form id="lead-form" method="POST" action="https://formsubmit.co/{FORM_EMAIL}" novalidate>
+            <input type="hidden" name="_subject" value="{subject}">
+            <input type="hidden" name="_next" value="{thanks_url}">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="form-group">
               <label for="nome">Nome e cognome</label>
               <input type="text" id="nome" name="nome" autocomplete="name" required>
@@ -589,17 +599,17 @@ def render(page):
             </div>
             <div class="form-group">
               <label for="specialita">Specialità</label>
-              <select id="specialita" name="specialita" disabled aria-disabled="true">
+              <select id="specialita" disabled aria-disabled="true">
                 <option selected>{page['form_specialty']}</option>
               </select>
-              <input type="hidden" name="specialita_val" value="{page['form_specialty']}">
+              <input type="hidden" name="specialita" value="{page['form_specialty']}">
             </div>
             <div class="form-group">
               <label for="messaggio">Messaggio <span style="font-weight:400;color:var(--muted)">(opzionale)</span></label>
               <textarea id="messaggio" name="messaggio" rows="3"></textarea>
             </div>
             <label class="consent">
-              <input type="checkbox" id="privacy" name="privacy" value="1" required>
+              <input type="checkbox" id="privacy" name="privacy" value="Accettata" required>
               <span>Ho letto e accetto l'<a href="/privacy" target="_blank" rel="noopener">informativa privacy</a> e acconsento al trattamento dei dati per essere ricontattato.</span>
             </label>
             <button type="submit" class="btn btn-primary btn-block btn-lg">Invia richiesta</button>
@@ -647,7 +657,7 @@ def render(page):
         specialita: '{specialita_js}'
       }});
 
-      window.location.href = 'grazie.html?specialita=' + encodeURIComponent('{specialita_js}');
+      form.submit();
     }});
   }})();
   </script>

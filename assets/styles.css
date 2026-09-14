@@ -542,14 +542,15 @@ a:hover {
   opacity: 1;
 }
 
-.consent {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  margin: 0.5rem 0 1.1rem;
-  font-size: 0.85rem;
-  color: var(--ink);
-  line-height: 1.45;
+.honey-field {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .consent input {
@@ -1095,21 +1096,65 @@ a:hover {
     padding: 2.75rem 1.35rem 2.25rem;
   }
 
+  .hero-logo {
+    width: min(180px, 52%);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.15rem;
+  }
+
   .hero h1 {
     max-width: none;
   }
 
   .hero-visual {
     min-height: 0;
+    aspect-ratio: auto;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-portrait {
+    position: relative;
+    inset: auto;
+  }
+
+  .hero-portrait figcaption {
+    position: static;
+    order: -1;
+    padding: 1.15rem 1.35rem 0.85rem;
+    background: #0f2238;
+    text-align: center;
+  }
+
+  .hero-portrait img {
+    height: auto;
     aspect-ratio: 4 / 5;
-    max-height: 560px;
+    max-height: 520px;
+    flex: none;
+    width: 100%;
+  }
+
+  .hero-portrait.is-pending img {
+    padding: 2rem 1.5rem 2rem;
   }
 
   .hero-visual--multi {
     aspect-ratio: auto;
     max-height: none;
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 380px;
+    min-height: 0;
+  }
+
+  .hero-visual--multi .hero-portrait figcaption {
+    text-align: center;
+    padding: 0.9rem 0.75rem 0.7rem;
+  }
+
+  .hero-visual--multi .hero-portrait img {
+    max-height: 420px;
   }
 
   .service-grid,
@@ -1136,13 +1181,22 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
+  .hero-logo {
+    width: min(150px, 48%);
+    margin-bottom: 1rem;
+  }
+
   .hero-visual--multi {
     grid-template-columns: 1fr;
     min-height: 0;
   }
 
   .hero-visual--multi .hero-portrait {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: auto;
+  }
+
+  .hero-visual--multi .hero-portrait img {
+    max-height: 520px;
   }
 
   .hero-visual--multi .hero-portrait:first-child {

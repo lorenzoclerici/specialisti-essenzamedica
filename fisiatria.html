@@ -227,7 +227,12 @@
           <p>Compila il modulo: ti ricontattiamo per confermare data e orario. Oppure chiamaci al <a href="tel:+390541670521" data-event="phone_click">0541 670521</a>.</p>
         </div>
         <div class="booking-card">
-          <form id="lead-form" novalidate>
+          <form id="lead-form" method="POST" action="https://formsubmit.co/lorenzo.clerici@reddoak.com" novalidate>
+            <input type="hidden" name="_subject" value="Nuova richiesta da Fisiatria">
+            <input type="hidden" name="_next" value="https://specialisti.essenzamedica.it/grazie?specialita=Fisiatria">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="form-group">
               <label for="nome">Nome e cognome</label>
               <input type="text" id="nome" name="nome" autocomplete="name" required>
@@ -242,17 +247,17 @@
             </div>
             <div class="form-group">
               <label for="specialita">Specialità</label>
-              <select id="specialita" name="specialita" disabled aria-disabled="true">
+              <select id="specialita" disabled aria-disabled="true">
                 <option selected>Fisiatria</option>
               </select>
-              <input type="hidden" name="specialita_val" value="Fisiatria">
+              <input type="hidden" name="specialita" value="Fisiatria">
             </div>
             <div class="form-group">
               <label for="messaggio">Messaggio <span style="font-weight:400;color:var(--muted)">(opzionale)</span></label>
               <textarea id="messaggio" name="messaggio" rows="3"></textarea>
             </div>
             <label class="consent">
-              <input type="checkbox" id="privacy" name="privacy" value="1" required>
+              <input type="checkbox" id="privacy" name="privacy" value="Accettata" required>
               <span>Ho letto e accetto l'<a href="/privacy" target="_blank" rel="noopener">informativa privacy</a> e acconsento al trattamento dei dati per essere ricontattato.</span>
             </label>
             <button type="submit" class="btn btn-primary btn-block btn-lg">Invia richiesta</button>
@@ -300,7 +305,7 @@
         specialita: 'Fisiatria'
       });
 
-      window.location.href = 'grazie.html?specialita=' + encodeURIComponent('Fisiatria');
+      form.submit();
     });
   })();
   </script>
