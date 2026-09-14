@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parent
 PHONE = "+390541670521"
 PHONE_DISPLAY = "0541 670521"
 THANKS_BASE = "https://specialisti.essenzamedica.it/grazie"
-FORM_EMAIL = "lorenzo.clerici@reddoak.com"
+FORM_EMAIL = "segreteria@essenzamedica.it"
 MAP_EMBED = "https://www.google.com/maps?q=Via+Ariete+18,+47923+Rimini,+Italia&z=16&output=embed"
 MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Via+Ariete+18,+47923+Rimini"
 
