@@ -9,6 +9,7 @@ PHONE = "+390541670521"
 PHONE_DISPLAY = "0541 670521"
 THANKS_BASE = "https://specialisti.essenzamedica.it/grazie"
 FORM_EMAIL = "segreteria@essenzamedica.it"
+GTM_ID = "GTM-TPSP2QN3"
 MAP_EMBED = "https://www.google.com/maps?q=Via+Ariete+18,+47923+Rimini,+Italia&z=16&output=embed"
 MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Via+Ariete+18,+47923+Rimini"
 
@@ -386,13 +387,13 @@ def render(page):
   new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  }})(window,document,'script','dataLayer','GTM-XXXXXXX');
+  }})(window,document,'script','dataLayer','{GTM_ID}');
   </script>
   <!-- End Google Tag Manager -->
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}"
   height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
@@ -686,13 +687,13 @@ def write_thank_you():
   new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  }})(window,document,'script','dataLayer','GTM-XXXXXXX');
+  }})(window,document,'script','dataLayer','{GTM_ID}');
   </script>
   <!-- End Google Tag Manager -->
 </head>
 <body class="thank-you-page">
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}"
   height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
