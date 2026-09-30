@@ -9,6 +9,9 @@ PHONE = "+390541670521"
 PHONE_DISPLAY = "0541 670521"
 THANKS_BASE = "https://specialisti.essenzamedica.it/grazie"
 FORM_EMAIL = "segreteria@essenzamedica.it"
+# Dopo il deploy Apps Script, incolla qui l'URL Web App (.../exec).
+# Finché è vuoto, resta attivo FormSubmit (solo email).
+FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbzG8qnENse1qsPhy6B2P2qwCB0CRWRwfOXc4NXwImTUlBqk-PumgmpZdddKvtrvmeW9RA/exec"
 GTM_ID = "GTM-TPSP2QN3"
 MAP_EMBED = "https://www.google.com/maps?q=Via+Ariete+18,+47923+Rimini,+Italia&z=16&output=embed"
 MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Via+Ariete+18,+47923+Rimini"
@@ -368,6 +371,17 @@ def render(page):
     specialita_js = page["form_specialty"].replace("'", "\\'")
     thanks_url = f"{THANKS_BASE}?specialita={quote(page['form_specialty'])}"
     subject = f"Nuova richiesta da {page['form_specialty']}"
+    use_sheets = bool(FORM_ENDPOINT.strip())
+    form_action = FORM_ENDPOINT.strip() if use_sheets else f"https://formsubmit.co/{FORM_EMAIL}"
+    if use_sheets:
+        form_extras = f"""            <input type="hidden" name="_next" value="{thanks_url}">
+            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">"""
+    else:
+        form_extras = f"""            <input type="hidden" name="_subject" value="{subject}">
+            <input type="hidden" name="_next" value="{thanks_url}">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">"""
 
     return f"""<!DOCTYPE html>
 <html lang="it">
@@ -580,12 +594,8 @@ def render(page):
           <p>Compila il modulo: ti ricontattiamo per confermare data e orario. Oppure chiamaci al <a href="tel:{PHONE}" data-event="phone_click">{PHONE_DISPLAY}</a>.</p>
         </div>
         <div class="booking-card">
-          <form id="lead-form" method="POST" action="https://formsubmit.co/{FORM_EMAIL}" novalidate>
-            <input type="hidden" name="_subject" value="{subject}">
-            <input type="hidden" name="_next" value="{thanks_url}">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <form id="lead-form" method="POST" action="{form_action}" novalidate>
+{form_extras}
             <div class="form-group">
               <label for="nome">Nome e cognome</label>
               <input type="text" id="nome" name="nome" autocomplete="name" required>
