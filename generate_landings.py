@@ -11,7 +11,7 @@ THANKS_BASE = "https://specialisti.essenzamedica.it/grazie"
 FORM_EMAIL = "segreteria@essenzamedica.it"
 # Dopo il deploy Apps Script, incolla qui l'URL Web App (.../exec).
 # Finché è vuoto, resta attivo FormSubmit (solo email).
-FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycby7CCOZY33kPs0wnQF24PeenByDvwjkyPeHkAMebebkP1yivFuHyPUd2bCxnoqHdC1XVw/exec"
+FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbx0haxZDw5BrReXxHVS7SsJNc33Vq4XprY8VzV330DBHeGYoVlHl315gGveI08exXL5bA/exec"
 GTM_ID = "GTM-TPSP2QN3"
 MAP_EMBED = "https://www.google.com/maps?q=Via+Ariete+18,+47923+Rimini,+Italia&z=16&output=embed"
 MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Via+Ariete+18,+47923+Rimini"
