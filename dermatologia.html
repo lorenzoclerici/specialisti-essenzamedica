@@ -221,9 +221,8 @@
           <p>Compila il modulo: ti ricontattiamo per confermare data e orario. Oppure chiamaci al <a href="tel:+390541670521" data-event="phone_click">0541 670521</a>.</p>
         </div>
         <div class="booking-card">
-          <form id="lead-form" method="POST" action="https://script.google.com/macros/s/AKfycby7CCOZY33kPs0wnQF24PeenByDvwjkyPeHkAMebebkP1yivFuHyPUd2bCxnoqHdC1XVw/exec" novalidate>
-            <input type="hidden" name="_next" value="https://specialisti.essenzamedica.it/grazie?specialita=Dermatologia">
-            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <form id="lead-form" method="POST" action="#" novalidate>
+
             <div class="form-group">
               <label for="nome">Nome e cognome</label>
               <input type="text" id="nome" name="nome" autocomplete="name" required>
@@ -271,6 +270,10 @@
     var statusEl = document.getElementById('form-status');
     if (!form) return;
 
+    var SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby7CCOZY33kPs0wnQF24PeenByDvwjkyPeHkAMebebkP1yivFuHyPUd2bCxnoqHdC1XVw/exec';
+    var THANKS_URL = 'https://specialisti.essenzamedica.it/grazie?specialita=Dermatologia';
+    var USE_SHEETS = true;
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       statusEl.className = 'form-status';
@@ -296,7 +299,35 @@
         specialita: 'Dermatologia'
       });
 
-      form.submit();
+      if (!USE_SHEETS) {
+        form.submit();
+        return;
+      }
+
+      var submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+      }
+      statusEl.className = 'form-status';
+      statusEl.textContent = 'Invio in corso…';
+
+      var body = new URLSearchParams({
+        nome: (form.querySelector('[name="nome"]') || {}).value || '',
+        telefono: (form.querySelector('[name="telefono"]') || {}).value || '',
+        email: (form.querySelector('[name="email"]') || {}).value || '',
+        specialita: 'Dermatologia',
+        messaggio: (form.querySelector('[name="messaggio"]') || {}).value || ''
+      });
+
+      // no-cors: lo script Google riceve i dati; poi andiamo sulla thank-you reale per GTM
+      fetch(SHEETS_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString()
+      }).finally(function () {
+        window.location.href = THANKS_URL;
+      });
     });
   })();
   </script>

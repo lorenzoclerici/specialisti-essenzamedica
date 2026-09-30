@@ -372,16 +372,17 @@ def render(page):
     thanks_url = f"{THANKS_BASE}?specialita={quote(page['form_specialty'])}"
     subject = f"Nuova richiesta da {page['form_specialty']}"
     use_sheets = bool(FORM_ENDPOINT.strip())
-    form_action = FORM_ENDPOINT.strip() if use_sheets else f"https://formsubmit.co/{FORM_EMAIL}"
+    form_action = "#" if use_sheets else f"https://formsubmit.co/{FORM_EMAIL}"
     if use_sheets:
-        form_extras = f"""            <input type="hidden" name="_next" value="{thanks_url}">
-            <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">"""
+        form_extras = ""
     else:
         form_extras = f"""            <input type="hidden" name="_subject" value="{subject}">
             <input type="hidden" name="_next" value="{thanks_url}">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
             <input type="text" name="_honey" value="" class="honey-field" tabindex="-1" autocomplete="off" aria-hidden="true">"""
+    sheets_endpoint_js = FORM_ENDPOINT.strip().replace("\\", "\\\\").replace("'", "\\'")
+    thanks_url_js = thanks_url.replace("\\", "\\\\").replace("'", "\\'")
 
     return f"""<!DOCTYPE html>
 <html lang="it">
@@ -643,6 +644,10 @@ def render(page):
     var statusEl = document.getElementById('form-status');
     if (!form) return;
 
+    var SHEETS_ENDPOINT = '{sheets_endpoint_js}';
+    var THANKS_URL = '{thanks_url_js}';
+    var USE_SHEETS = {str(use_sheets).lower()};
+
     form.addEventListener('submit', function (e) {{
       e.preventDefault();
       statusEl.className = 'form-status';
@@ -668,7 +673,35 @@ def render(page):
         specialita: '{specialita_js}'
       }});
 
-      form.submit();
+      if (!USE_SHEETS) {{
+        form.submit();
+        return;
+      }}
+
+      var submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn) {{
+        submitBtn.disabled = true;
+      }}
+      statusEl.className = 'form-status';
+      statusEl.textContent = 'Invio in corso…';
+
+      var body = new URLSearchParams({{
+        nome: (form.querySelector('[name="nome"]') || {{}}).value || '',
+        telefono: (form.querySelector('[name="telefono"]') || {{}}).value || '',
+        email: (form.querySelector('[name="email"]') || {{}}).value || '',
+        specialita: '{specialita_js}',
+        messaggio: (form.querySelector('[name="messaggio"]') || {{}}).value || ''
+      }});
+
+      // no-cors: lo script Google riceve i dati; poi andiamo sulla thank-you reale per GTM
+      fetch(SHEETS_ENDPOINT, {{
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {{ 'Content-Type': 'application/x-www-form-urlencoded' }},
+        body: body.toString()
+      }}).finally(function () {{
+        window.location.href = THANKS_URL;
+      }});
     }});
   }})();
   </script>
